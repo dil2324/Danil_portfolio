@@ -48,7 +48,7 @@ try{
  check('Project dialog',await ev('document.querySelector("dialog").open && document.querySelector("#dialog-title").textContent==="AI Assistant API"'),true);
  await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
  await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
- await wait('!document.querySelector("dialog").open');
+ await wait('!document.querySelector("dialog").open && !document.body.classList.contains("modal-open")');
  check('Escape and focus restoration',await ev('!document.body.classList.contains("modal-open") && document.activeElement.matches(".project-detail")'),true);
  await ev('document.querySelector(".theme-toggle").click()');
  check('Dark theme',await ev('document.documentElement.dataset.theme'),'dark');
@@ -59,7 +59,23 @@ try{
   await viewport(width);
   const size=await ev('({width:innerWidth,scroll:document.documentElement.scrollWidth,offenders:[...document.querySelectorAll("body *")].filter(e=>{const r=e.getBoundingClientRect();return r.width>0&&r.right>innerWidth+1}).map(e=>e.className).slice(0,8)})');
   check('No overflow '+width+'px '+JSON.stringify(size),size.scroll<=width,true);
+  const smallText=await ev('[...document.querySelectorAll("body *")].filter(e=>e.getClientRects().length&&!e.closest(".sr-only")&&[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim())&&parseFloat(getComputedStyle(e).fontSize)<16).map(e=>({element:e.className||e.tagName,size:getComputedStyle(e).fontSize}))');
+  check('Text at least 16px at '+width+'px',smallText,[]);
+  const clipped=await ev('[...document.querySelectorAll(".terminal,.code-line code,.project-visual,.api-window,.chat-window,.booking,.todo-window,.coffee-preview,.project-info")].filter(e=>e.getClientRects().length&&e.scrollWidth>e.clientWidth+1).map(e=>e.className)');
+  check('No clipped panels at '+width+'px',clipped,[]);
  }
+ await shot('mobile-320');
+ for(const id of ['ai-api','ai-bot','barber','todo','coffee']){
+  await ev('document.querySelector(\'.project-more[data-project="'+id+'"]\').focus();document.querySelector(\'.project-more[data-project="'+id+'"]\').click()');
+  check('Project details '+id,await ev('document.querySelector("dialog").open && document.querySelector("#dialog-content").textContent.includes("Ограничения и что проверить")'),true);
+  check('Dialog fits 320px '+id,await ev('document.querySelector("dialog").scrollWidth<=document.querySelector("dialog").clientWidth'),true);
+  if(id==='ai-api')await shot('dialog-320');
+  await ev('document.querySelector("#close-dialog").click()');
+  await wait('!document.body.classList.contains("modal-open")');
+  check('Close button and focus '+id,await ev('document.activeElement.matches(".project-more")'),true);
+ }
+ await ev('document.querySelector(".theme-toggle").click()');await shot('mobile-320-dark');
+ await ev('document.querySelector(".theme-toggle").click()');
  await viewport(390);await ev('document.querySelector(".menu-toggle").click()');
  check('Mobile menu opens',await ev('document.querySelector(".menu-toggle").getAttribute("aria-expanded")'),'true');
  await ev('document.querySelector("#navigation a").click()');

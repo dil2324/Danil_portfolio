@@ -6,6 +6,9 @@ const projects = [
     demo: 'https://ai-assistant-api-gx5a.onrender.com/docs', demoLabel: 'Swagger ↗',
     detail: 'Серверная часть AI-ассистента, которая связывает веб-интерфейс, языковую модель и базу данных.',
     features: ['REST API на FastAPI: /register, /login, /me, /chat и /clear.', 'Интеграция OpenAI API и сохранение истории диалога.', 'PostgreSQL и SQLAlchemy для работы с данными.', 'Запуск базы данных через Docker Compose.'],
+    benefit: 'История в PostgreSQL позволяет продолжать диалог с сохранённым контекстом. Отдельный API можно подключать к веб-интерфейсу.',
+    deployment: 'Есть инструкция деплоя на Render; нужна настройка сервисов.',
+    limitations: ['Для запуска нужны PostgreSQL и ключ OpenAI API. Доступность AI-ответов зависит от внешнего провайдера и его лимитов.', 'README описывает API, frontend и базу на Render. После первого развёртывания нужно указать адреса API и frontend в переменных окружения и повторно развернуть оба сервиса.'],
     note: 'Ссылка на Swagger взята из README. Доступность внешнего сервиса зависит от хостинга.'
   },
   {
@@ -14,21 +17,30 @@ const projects = [
     tags: ['Python', 'Aiogram 3', 'OpenAI API'], repo: 'AI-assistant-bot',
     demo: 'https://github.com/dil2324/AI-assistant-bot/blob/main/demo.gif', demoLabel: 'Запись демо ↗',
     detail: 'Бот отвечает на вопросы в Telegram и передаёт контекст предыдущих сообщений языковой модели.',
-    features: ['Интеграция GPT-4o mini через OpenAI API.', 'Отдельная история диалога для каждого пользователя.', 'Команды /start и /clear для начала работы и очистки контекста.', 'Обработка ошибок и логирование.']
+    features: ['Интеграция GPT-4o mini через OpenAI API.', 'Отдельная история диалога для каждого пользователя.', 'Команды /start и /clear для начала работы и очистки контекста.', 'Обработка ошибок и логирование.'],
+    benefit: 'Пользователь общается с AI прямо в Telegram, а история помогает продолжать разговор без повторения предыдущих сообщений.',
+    deployment: 'Инструкцию запуска в README нужно дополнить.',
+    limitations: ['README заканчивается на клонировании репозитория: нужно описать установку зависимостей, настройку токенов и команду запуска.', 'Сохранение истории после перезапуска в README не описано. Это нужно проверить перед постоянным запуском; запись демо не подтверждает доступность работающего бота.']
   },
   {
     id: 'barber', title: 'BarberShop Bot', category: 'bots', type: 'TELEGRAM / АВТОМАТИЗАЦИЯ', visual: 'barber',
     description: 'Бот для записи в барбершоп: выбор мастера, сохранение записей и напоминания перед визитом.',
     tags: ['Python', 'Telegram Bot', 'SQLite'], repo: 'BarberShop-bot',
     detail: 'Автоматизация записи клиентов через привычный интерфейс Telegram.',
-    features: ['Создание и сохранение записей клиентов.', 'Выбор мастера с помощью кнопок.', 'Информация об услугах и расположении барбершопа.', 'Напоминания за 24 часа и за 3 часа до визита.']
+    features: ['Создание и сохранение записей клиентов.', 'Выбор мастера с помощью кнопок.', 'Информация об услугах и расположении барбершопа.', 'Напоминания за 24 часа и за 3 часа до визита.'],
+    benefit: 'Выбор мастера и запись доступны в Telegram. Напоминания помогают клиенту заранее вспомнить о визите.',
+    deployment: 'Нужно исправить инструкцию запуска и проверить напоминания.',
+    limitations: ['В инструкции указан другой адрес репозитория, а шаги установки и запуска не завершены. Это нужно исправить в README бота.', 'Для SQLite нужно сохранять файл базы между перезапусками. Перед рабочим запуском следует проверить восстановление напоминаний и защиту от двойной записи: README не подтверждает эти сценарии.']
   },
   {
     id: 'todo', title: 'Todo API', category: 'backend', type: 'BACKEND / REST API', visual: 'todo',
     description: 'REST API для управления задачами: полный CRUD, валидация данных и документация Swagger.',
     tags: ['Python', 'FastAPI', 'Pydantic'], repo: 'Todo-APi',
     detail: 'API для создания, просмотра, изменения и удаления задач с валидацией моделей через Pydantic.',
-    features: ['Получение всех задач и задачи по идентификатору.', 'Создание задач через POST /tasks.', 'Обновление и удаление через PUT и DELETE /tasks/{id}.', 'Интерактивная документация на /docs после локального запуска.']
+    features: ['Получение всех задач и задачи по идентификатору.', 'Создание задач через POST /tasks.', 'Обновление и удаление через PUT и DELETE /tasks/{id}.', 'Интерактивная документация на /docs после локального запуска.'],
+    benefit: 'Небольшой API показывает полный цикл работы с задачами и валидацию входных данных. Через Swagger удобно изучать и вызывать его методы.',
+    deployment: 'Описан локальный запуск; готовность к рабочему деплою не подтверждена.',
+    limitations: ['README не описывает постоянное хранилище и разграничение доступа пользователей. До использования для личных задач это нужно проверить в коде.', 'Команда с --reload предназначена для разработки. Для постоянной работы нужно отдельно настроить запуск сервиса и хранение данных.']
   },
   {
     id: 'coffee', title: 'Coffee Landing', category: 'frontend', type: 'FRONTEND / ВЕБ-САЙТ', visual: 'coffee',
@@ -36,7 +48,10 @@ const projects = [
     tags: ['HTML5', 'CSS', 'GitHub Pages'], repo: 'coffee-landing-frontend',
     demo: 'https://dil2324.github.io/coffee-landing-frontend/', demoLabel: 'Открыть сайт ↗',
     detail: 'Небольшой сайт кофейни, опубликованный на GitHub Pages. Практика создания визуального интерфейса.',
-    features: ['Главный баннер с текстом.', 'Меню кофейни.', 'Вёрстка на HTML5 и CSS.', 'Публикация на GitHub Pages.']
+    features: ['Главный баннер с текстом.', 'Меню кофейни.', 'Вёрстка на HTML5 и CSS.', 'Публикация на GitHub Pages.'],
+    benefit: 'Статический лендинг показывает кофейню и меню, а размещение на GitHub Pages не требует отдельного backend-сервера.',
+    deployment: 'В README есть ссылка на GitHub Pages.',
+    limitations: ['README описывает витрину с меню. Заказ, оплата и управление меню через админку не заявлены — для них потребуется отдельная реализация.', 'Перед использованием для бизнеса нужно отдельно проверить мобильную вёрстку, контакты и актуальность меню.']
   }
 ];
 
@@ -54,7 +69,7 @@ projectGrid.innerHTML = projects.map((project, index) => `
     <div class="project-visual preview-${project.visual}" data-project="${project.id}" role="button" tabindex="0" aria-label="Подробнее о проекте ${project.title}">
       <span class="visual-label">${project.visual === 'api' ? 'СХЕМА API' : 'ИЛЛЮСТРАЦИЯ ПРОЕКТА'}</span><span class="visual-expand" aria-hidden="true">↗</span><div class="sr-only">Иллюстрация, не снимок работающего приложения.</div>${previews[project.visual]}
     </div>
-    <div class="project-info"><div class="project-meta"><span class="project-number">0${index + 1}</span><span>${project.type}</span></div><div class="project-title-row"><h3>${project.title}</h3><button type="button" class="project-detail" data-project="${project.id}" aria-label="Описание ${project.title}">↗</button></div><p>${project.description}</p><div class="project-tags">${project.tags.map(tag => `<span>${tag}</span>`).join('')}</div><div class="project-links"><a href="https://github.com/dil2324/${project.repo}" target="_blank" rel="noopener noreferrer">Код на GitHub ↗</a>${project.demo ? `<a href="${project.demo}" target="_blank" rel="noopener noreferrer">${project.demoLabel}</a>` : ''}</div></div>
+    <div class="project-info"><div class="project-meta"><span class="project-number">0${index + 1}</span><span>${project.type}</span></div><div class="project-title-row"><h3>${project.title}</h3><button type="button" class="project-detail" data-project="${project.id}" aria-label="Описание ${project.title}">↗</button></div><p>${project.description}</p><div class="project-tags">${project.tags.map(tag => `<span>${tag}</span>`).join('')}</div><p class="project-readiness"><strong>Запуск:</strong> ${project.deployment}</p><button type="button" class="project-more text-link" data-project="${project.id}">Плюсы и ограничения <span aria-hidden="true">↗</span></button><div class="project-links"><a href="https://github.com/dil2324/${project.repo}" target="_blank" rel="noopener noreferrer">Код на GitHub ↗</a>${project.demo ? `<a href="${project.demo}" target="_blank" rel="noopener noreferrer">${project.demoLabel}</a>` : ''}</div></div>
   </article>`).join('');
 
 document.querySelectorAll('[data-filter]').forEach(button => {
@@ -78,7 +93,7 @@ const dialog = document.querySelector('#project-dialog');
 function openProject(id) {
   const project = projects.find(item => item.id === id);
   if (!project) return;
-  document.querySelector('#dialog-content').innerHTML = `<h2 id="dialog-title">${project.title}</h2><p>${project.detail}</p><div class="project-tags">${project.tags.map(tag => `<span>${tag}</span>`).join('')}</div><h3>Что реализовано</h3><ul>${project.features.map(feature => `<li>${feature}</li>`).join('')}</ul><div class="project-links"><a href="https://github.com/dil2324/${project.repo}" target="_blank" rel="noopener noreferrer">Репозиторий ↗</a>${project.demo ? `<a href="${project.demo}" target="_blank" rel="noopener noreferrer">${project.demoLabel}</a>` : ''}</div><p class="dialog-source">Описание основано на README проекта.${project.note ? ` ${project.note}` : ''}</p>`;
+  document.querySelector('#dialog-content').innerHTML = `<h2 id="dialog-title">${project.title}</h2><p>${project.detail}</p><div class="project-tags">${project.tags.map(tag => `<span>${tag}</span>`).join('')}</div><h3>Чем полезен</h3><p>${project.benefit}</p><h3>Что реализовано</h3><ul>${project.features.map(feature => `<li>${feature}</li>`).join('')}</ul><h3>Готовность к запуску</h3><p>${project.deployment}</p><h3>Ограничения и что проверить</h3><ul>${project.limitations.map(item => `<li>${item}</li>`).join('')}</ul><div class="project-links"><a href="https://github.com/dil2324/${project.repo}" target="_blank" rel="noopener noreferrer">Репозиторий ↗</a>${project.demo ? `<a href="${project.demo}" target="_blank" rel="noopener noreferrer">${project.demoLabel}</a>` : ''}</div><p class="dialog-source">Возможности сверены с <a href="https://github.com/dil2324/${project.repo}#readme" target="_blank" rel="noopener noreferrer">README проекта</a>. Оценка запуска основана на документации; аудит кода и проверка рабочего сервиса не проводились.${project.note ? ` ${project.note}` : ''}</p>`;
   dialog.showModal();
   document.body.classList.add('modal-open');
 }
